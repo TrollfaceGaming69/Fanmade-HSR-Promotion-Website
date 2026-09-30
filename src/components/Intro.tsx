@@ -76,7 +76,7 @@ const Intro = () => {
                     </ul>
                 </div>
 
-                <div data-intro-art className='relative flex w-full max-w-2xl lg:w-1/2 xl:w-auto'>
+                <div data-intro-art className='relative flex w-full lg:w-1/2 xl:w-auto'>
                     <img src={assets.tumbal} alt="" className='h-auto w-full rounded-xl sm:rounded-2xl' />
                 </div>
             </div>
