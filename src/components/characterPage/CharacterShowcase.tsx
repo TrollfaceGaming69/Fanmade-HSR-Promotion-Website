@@ -121,9 +121,6 @@ const CharacterShowcase = ({
       <div className="grid gap-8 lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:gap-8 xl:gap-12">
         <div
           data-showcase-copy
-          // The entry animation translates these children down 24px, which briefly
-          // extends the scrollable overflow area and flashed a scrollbar on every
-          // path switch. Hidden here, as on the rails and the overlay.
           className="order-2 flex min-h-0 flex-col justify-center-safe
             lg:order-1 lg:overflow-y-auto lg:no-scrollbar lg:pr-2"
         >
