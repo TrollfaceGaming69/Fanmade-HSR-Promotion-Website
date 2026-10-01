@@ -36,18 +36,11 @@ const SOURCE_DIR = path.join(ROOT, 'src')
 const SOURCE_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.css', '.html'])
 const IMAGE_CONCURRENCY = 4
 
-/**
- * First match wins. `width` is a ceiling: nothing is ever upscaled.
- * Widths are roughly 2x the largest size each asset is rendered at.
- */
 const RULES = [
-  // Icons are already tiny and get inlined by Vite. Leave them alone.
   { match: /^img\/(path_|ele_)/i, kind: 'skip' },
 
-  // Gameplay screenshots in the media rail (rendered at 800px, aspect-video).
   { match: /^img\/game[_-]?img/i, kind: 'image', format: 'webp', width: 1600, quality: 80 },
 
-  // World panels in the accordion gallery (500px tall, ~700px when expanded).
   {
     match: /^img\/(hss1|jarilo|luofu|penacony|ampho|palacardia)\.png$/i,
     kind: 'image',
@@ -56,8 +49,6 @@ const RULES = [
     quality: 80,
   },
 
-  // Character splash art: 2048px squares rendered at ~450px in a card and
-  // ~900px in the overlay.
   { match: /^img\/.+_full\.webp$/i, kind: 'image', format: 'webp', width: 900, quality: 82 },
 
   { match: /^img\/hero_bg\.jpg$/i, kind: 'image', format: 'jpeg', width: 1920, quality: 80 },
@@ -66,10 +57,8 @@ const RULES = [
   { match: /^img\/foooter-bg-img\.webp$/i, kind: 'image', format: 'webp', width: 1200, quality: 80 },
   { match: /^img\/logo\.png$/i, kind: 'image', format: 'webp', width: 400, quality: 90 },
 
-  // Muted, looping, never larger than ~800px on screen.
   { match: /^vid\/.+\.(mp4|mov|webm)$/i, kind: 'video', width: 1280, crf: 26, preset: 'slow' },
 
-  // Anything else that is still an image.
   { match: /^img\/.+\.(png|jpe?g|webp)$/i, kind: 'image', format: 'webp', width: 1600, quality: 80 },
 ]
 
@@ -236,9 +225,7 @@ const encodeVideo = async (sourcePath, targetPath, rule) => {
     rule.preset,
     '-pix_fmt',
     'yuv420p',
-    // The players are muted, so the audio track is pure overhead.
     '-an',
-    // Lets playback start before the whole file has arrived.
     '-movflags',
     '+faststart',
     targetPath,
@@ -247,7 +234,6 @@ const encodeVideo = async (sourcePath, targetPath, rule) => {
   await execFileAsync('ffmpeg', args, { maxBuffer: 64 * 1024 * 1024 })
 }
 
-/** Returns the path to read from, copying the pristine file aside on first run. */
 const resolveSource = async (absolutePath, relativePath, dryRun) => {
   const backupPath = path.join(BACKUP_DIR, relativePath)
 
@@ -277,7 +263,6 @@ const processFile = async ({ sharp, absolutePath, relativePath, rule, dryRun, fo
 
   if (rule.kind === 'image') {
     const buffer = await encodeImage(sharp, sourcePath, rule)
-    // Assets already at or below the target width re-encode larger. Leave them.
     const keep = buffer.byteLength >= before && !force
 
     if (keep) {
@@ -309,7 +294,6 @@ const processFile = async ({ sharp, absolutePath, relativePath, rule, dryRun, fo
     }
   }
 
-  // Video: ffmpeg needs a real file to write to, so measure through a temp file.
   const temporaryPath = dryRun
     ? path.join(os.tmpdir(), `hsr-compress-${Date.now()}-${path.basename(targetPath)}`)
     : `${targetPath}.tmp${path.extname(targetPath)}`
@@ -473,7 +457,6 @@ const run = async () => {
 
   await mapPool(images, IMAGE_CONCURRENCY, handle)
 
-  // One at a time: x264 already saturates the CPU.
   for (const video of videos) await handle(video)
 
   const before = results.reduce((total, result) => total + result.before, 0)

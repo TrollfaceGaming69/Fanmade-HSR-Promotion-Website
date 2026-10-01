@@ -3,6 +3,7 @@ import type { KeyboardEvent } from 'react'
 import { gsap } from 'gsap'
 import type { PathGroup } from './characterRoster'
 import { centerOffsetFor, clampScroll, scrollLeftTo } from './scrollTrack'
+import { useStrings } from '../../i18n/strings'
 
 type PathSelectorProps = {
   groups: PathGroup[]
@@ -21,6 +22,7 @@ const PathSelector = ({
   panelId,
   tabIdPrefix,
 }: PathSelectorProps) => {
+  const t = useStrings()
   const trackRef = useRef<HTMLDivElement>(null)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const emblemRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -136,7 +138,7 @@ const PathSelector = ({
         tabIndex={edges.overflowing ? undefined : -1}
         className={`${arrowClass} hover:-translate-x-0.5 ${edges.overflowing ? '' : 'invisible'}`}
       >
-        <span className="sr-only">Show previous paths</span>
+        <span className="sr-only">{t.characterPage.previousPaths}</span>
         <svg viewBox="0 0 24 24" aria-hidden="true" className="size-7 fill-current">
           <path d="M16 3.5 5.5 12 16 20.5z" />
         </svg>
@@ -145,7 +147,7 @@ const PathSelector = ({
       <div
         ref={trackRef}
         role="tablist"
-        aria-label="Character paths"
+        aria-label={t.characterPage.pathsLabel}
         aria-orientation="horizontal"
         onKeyDown={handleKeyDown}
         className="no-scrollbar relative flex max-w-full overflow-x-auto overscroll-x-contain"
@@ -220,7 +222,7 @@ const PathSelector = ({
         tabIndex={edges.overflowing ? undefined : -1}
         className={`${arrowClass} hover:translate-x-0.5 ${edges.overflowing ? '' : 'invisible'}`}
       >
-        <span className="sr-only">Show more paths</span>
+        <span className="sr-only">{t.characterPage.morePaths}</span>
         <svg viewBox="0 0 24 24" aria-hidden="true" className="size-7 fill-current">
           <path d="M8 3.5 18.5 12 8 20.5z" />
         </svg>

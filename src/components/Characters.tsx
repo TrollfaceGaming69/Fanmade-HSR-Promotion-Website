@@ -5,8 +5,13 @@ import type { Trailblazer } from "../assets/assets"
 import { ROUTES } from "../routes"
 import CharacterOvl from "./overlays/CharacterOvl"
 import { createSectionReveal, revealOnScroll } from "../animations/sectionReveal"
+import { localizeCharacter } from "../i18n/characterLore"
+import { useLanguage } from "../i18n/languageContext"
+import { useStrings } from "../i18n/strings"
 
 const Characters = () => {
+  const t = useStrings()
+  const { language } = useLanguage()
   const [selected, setSelected] = useState<Trailblazer | null>(null)
   const closeOverlay = useCallback(() => setSelected(null), [])
   const rootRef = useRef<HTMLDivElement>(null)
@@ -22,7 +27,6 @@ const Characters = () => {
 
       revealOnScroll(heading, scroller, { from: { y: -24 }, to: { duration: 0.6 } })
 
-      // Each card owns its trigger, with a nudge per column so rows cascade.
       cards.forEach((card, index) => {
         revealOnScroll(card, scroller, {
           from: { y: 48, scale: 0.96 },
@@ -41,7 +45,7 @@ const Characters = () => {
     <div ref={rootRef} id="characters" className="flex flex-col items-center gap-6 py-14 sm:py-20 px-4 sm:px-12 lg:px-24 xl:px-40
          w-full overflow-hidden mt-12 sm:mt-20">
             <div data-characters-heading className='px-6 sm:px-10 pb-4 sm:pb-5 border-b-2 sm:border-b-4 border-label mb-5'>
-                    <h1 className='text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-label'>Characters</h1>
+                    <h1 className='text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-label'>{t.characters.heading}</h1>
             </div>
 
             <ul className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
@@ -53,14 +57,14 @@ const Characters = () => {
                   <article
                     className="group relative h-full overflow-hidden rounded-2xl border border-label/15 bg-container-fill
                       transition-colors duration-500 ease-out
-                      hover:border-primary/70 focus-within:border-primary/70
+                      hover:border-primary/70 has-focus-visible:border-primary/70
                       motion-reduce:transition-none"
                   >
                     <div
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 ease-out
                         bg-[radial-gradient(circle_at_50%_18%,rgba(223,142,35,0.22),transparent_62%)]
-                        group-hover:opacity-100 group-focus-within:opacity-100 motion-reduce:transition-none"
+                        group-hover:opacity-100 group-has-focus-visible:opacity-100 motion-reduce:transition-none"
                     />
 
                     <div className="relative aspect-3/4 overflow-hidden">
@@ -76,7 +80,7 @@ const Characters = () => {
                         draggable={false}
                         className="absolute inset-0 size-full scale-105 select-none object-cover object-top
                           transition-transform duration-700 ease-out
-                          group-hover:scale-115 group-focus-within:scale-115
+                          group-hover:scale-115 group-has-focus-visible:scale-115
                           motion-reduce:transition-none motion-reduce:scale-105"
                       />
 
@@ -103,14 +107,14 @@ const Characters = () => {
 
                       <div className="mt-5 flex items-center justify-between gap-3">
                         <span
-                          title={`${element} element`}
+                          title={t.characters.elementLabel(element)}
                           className="inline-flex size-10 shrink-0 items-center justify-center rounded-full border border-primary/50 sm:size-11
                             bg-background/50 transition-colors duration-300 ease-out
                             group-hover:border-primary group-hover:bg-primary/10 motion-reduce:transition-none"
                         >
                           <img
                             src={elementIcons[element]}
-                            alt={`${element} element`}
+                            alt={t.characters.elementLabel(element)}
                             loading="lazy"
                             draggable={false}
                             className="size-6 select-none object-contain transition-transform duration-300 ease-out
@@ -122,9 +126,9 @@ const Characters = () => {
                           aria-hidden="true"
                           className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-label/70
                             transition-colors duration-300 ease-out
-                            group-hover:text-primary group-focus-within:text-primary motion-reduce:transition-none"
+                            group-hover:text-primary group-has-focus-visible:text-primary motion-reduce:transition-none"
                         >
-                          <span>View</span>
+                          <span>{t.common.view}</span>
                           <svg
                             viewBox="0 0 24 24"
                             fill="none"
@@ -133,7 +137,7 @@ const Characters = () => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             className="size-4 transition-transform duration-300 ease-out
-                              group-hover:translate-x-1 group-focus-within:translate-x-1 motion-reduce:transition-none"
+                              group-hover:translate-x-1 group-has-focus-visible:translate-x-1 motion-reduce:transition-none"
                             aria-hidden="true"
                           >
                             <path d="M5 12h14" />
@@ -145,19 +149,20 @@ const Characters = () => {
                       <span
                         aria-hidden="true"
                         className="mt-5 h-0.5 w-10 origin-left bg-label/40 transition-[width,background-color] duration-500 ease-out
-                          group-hover:w-full group-hover:bg-primary group-focus-within:w-full group-focus-within:bg-primary
+                          group-hover:w-full group-hover:bg-primary
+                          group-has-focus-visible:w-full group-has-focus-visible:bg-primary
                           motion-reduce:transition-none"
                       />
                     </div>
 
                     <button
                       type="button"
-                      onClick={() => setSelected(trailblazer)}
+                      onClick={() => setSelected(localizeCharacter(trailblazer, language))}
                       aria-haspopup="dialog"
                       className="absolute inset-0 z-30 cursor-pointer rounded-2xl
                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary"
                     >
-                      <span className="sr-only">View {name} details</span>
+                      <span className="sr-only">{t.characters.viewDetails(name)}</span>
                     </button>
                   </article>
                 </li>
@@ -172,7 +177,7 @@ const Characters = () => {
               transition-opacity duration-200 ease-out hover:opacity-90
               focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none"
             >
-              See more
+              {t.common.seeMore}
             </Link>
 
             <CharacterOvl character={selected} onClose={closeOverlay} />

@@ -2,8 +2,10 @@ import { useLayoutEffect, useRef } from 'react'
 import { gameplay } from '../assets/assets'
 import GameplayFeature from '../components/gameplayPage/GameplayFeature'
 import { createSectionReveal, revealOnScroll } from '../animations/sectionReveal'
+import { useStrings } from '../i18n/strings'
 
 const Gameplaypage = () => {
+  const t = useStrings()
   const rootRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
@@ -23,7 +25,6 @@ const Gameplaypage = () => {
           row.querySelectorAll<HTMLElement>('[data-gameplay-copy] > *:not([data-gameplay-rule])'),
         )
 
-        // The clip enters from its own side of the row, the copy answers from the other.
         revealOnScroll(media, scroller, {
           from: { x: -64, y: 0, scale: 0.96 },
           to: { x: 0, scale: 1, duration: 0.8 },
@@ -51,13 +52,21 @@ const Gameplaypage = () => {
       className="flex w-full flex-col items-center gap-6 overflow-hidden px-4 py-14 sm:px-12 sm:py-20 lg:px-24 xl:px-40"
     >
       <div data-gameplay-heading className="mb-5 border-b-2 border-label px-6 pb-4 sm:border-b-4 sm:px-10 sm:pb-5">
-        <h1 className="text-3xl font-bold text-label uppercase sm:text-4xl lg:text-5xl">Gameplay</h1>
+        <h1 className="text-3xl font-bold text-label uppercase sm:text-4xl lg:text-5xl">
+          {t.gameplay.heading}
+        </h1>
       </div>
 
       <ul className="mt-5 flex w-full flex-col gap-14 sm:gap-20 lg:gap-28">
         {gameplay.map((entry, index) => (
           <li key={entry.video}>
-            <GameplayFeature entry={entry} index={index} />
+            {/* The clip comes from assets.ts, the copy from the dictionary. */}
+            <GameplayFeature
+              video={entry.video}
+              label={t.gameplay.features[index].label}
+              description={t.gameplay.features[index].description}
+              index={index}
+            />
           </li>
         ))}
       </ul>

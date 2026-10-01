@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import type { RosterEntry } from './characterRoster'
 import { centerOffsetFor, scrollLeftTo } from './scrollTrack'
+import { useStrings } from '../../i18n/strings'
 
 type CharacterRailProps = {
   members: RosterEntry[]
@@ -18,6 +19,7 @@ const CharacterRail = ({
   panelId,
   pathName,
 }: CharacterRailProps) => {
+  const t = useStrings()
   const scrollerRef = useRef<HTMLDivElement>(null)
   const cardRefs = useRef<(HTMLLIElement | null)[]>([])
 
@@ -57,7 +59,7 @@ const CharacterRail = ({
       className="no-scrollbar relative w-full overflow-x-auto overscroll-x-contain"
     >
       <ul
-        aria-label={`The ${pathName} characters`}
+        aria-label={t.characterPage.railLabel(pathName)}
         className="flex min-w-max items-start justify-center gap-3 px-4 py-4 sm:gap-6"
       >
         {members.map((member, index) => {

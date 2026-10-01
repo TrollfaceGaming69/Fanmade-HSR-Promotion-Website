@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { elementIcons } from '../../assets/assets'
 import type { Trailblazer } from '../../assets/assets'
+import { useStrings } from '../../i18n/strings'
 
 type CharacterOvlProps = {
   character: Trailblazer | null
@@ -11,6 +12,7 @@ const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
 const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
+  const t = useStrings()
   const rootRef = useRef<HTMLDivElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const isOpen = character !== null
@@ -98,7 +100,7 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
     >
       <button
         type="button"
-        aria-label="Close character details"
+        aria-label={t.characterPage.closeDetails}
         onClick={onClose}
         className="absolute inset-0 cursor-default bg-background/85 backdrop-blur-sm
           animate-in fade-in duration-300 motion-reduce:animate-none"
@@ -123,7 +125,7 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
             focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary
             motion-reduce:transition-none"
         >
-          <span className="sr-only">Close character details</span>
+          <span className="sr-only">{t.characterPage.closeDetails}</span>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -139,8 +141,12 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
           </svg>
         </button>
 
-        <div className="grid overflow-y-auto no-scrollbar lg:grid-cols-[1.05fr_1fr] lg:overflow-hidden">
-          <div className="order-2 flex flex-col px-5 pt-7 pb-9 sm:px-10 sm:pt-8 sm:pb-10 lg:order-1 lg:max-h-[90svh]
+        {/* Below lg this is the scroll container: a column with the art on top and
+            the copy under it. flex-1 + min-h-0 are what let it shrink inside the
+            panel's max height and scroll, instead of overflowing and being clipped. */}
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain no-scrollbar
+          lg:grid lg:grid-cols-[1.05fr_1fr] lg:overflow-hidden">
+          <div className="order-2 flex shrink-0 flex-col px-5 pt-7 pb-9 sm:px-10 sm:pt-8 sm:pb-10 lg:order-1 lg:max-h-[90svh]
             lg:overflow-y-auto lg:no-scrollbar lg:px-12 lg:py-14">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary sm:text-sm">
               {path}
@@ -183,7 +189,7 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
 
             <div className="mt-8">
               <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-label">
-                Story
+                {t.characterPage.storyHeading}
               </h3>
 
               <p className="mt-4 text-base leading-relaxed text-text/75 sm:text-lg">
@@ -192,7 +198,11 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
             </div>
           </div>
 
-          <div className="relative order-1 aspect-4/5 overflow-hidden bg-background/40 sm:aspect-16/10
+          {/* A 4/5 ratio took ~70% of the panel on a phone, which is what pushed the
+              story out of sight. Capped against the viewport instead, and shrink-0
+              so the column scrolls rather than squashing the art. */}
+          <div className="relative order-1 h-72 max-h-[38svh] shrink-0 overflow-hidden bg-background/40
+            sm:h-auto sm:max-h-none sm:aspect-16/10
             lg:order-2 lg:aspect-auto lg:h-full lg:min-h-136">
             <div
               aria-hidden="true"

@@ -3,13 +3,13 @@ import AccordionGallery from '../animatedcomponents/AccordionGallery'
 import { worlds } from '../assets/assets'
 import { createSectionReveal, revealOnScroll } from '../animations/sectionReveal'
 import { useMediaQuery } from '../hooks/useMediaQuery'
+import { useStrings } from '../i18n/strings'
 
 
 const Worlds = () => {
+  const t = useStrings()
   const rootRef = useRef<HTMLDivElement>(null)
 
-  // The accordion needs room for six panels side by side, so phones get a
-  // plain stacked grid instead and the panel height follows the viewport.
   const isPhone = useMediaQuery('(max-width: 639px)')
   const isBelowDesktop = useMediaQuery('(max-width: 1023px)')
 
@@ -23,8 +23,6 @@ const Worlds = () => {
 
       revealOnScroll(heading, scroller, { from: { y: -24 }, to: { duration: 0.6 } })
 
-      // Only opacity and offset here: the gallery measures its own panels, so
-      // scaling the wrapper would throw those measurements off.
       revealOnScroll(gallery, scroller, { from: { y: 56 }, to: { duration: 0.85 } })
     })
   }, [isPhone])
@@ -33,12 +31,12 @@ const Worlds = () => {
     <div ref={rootRef} id="worlds" className='flex flex-col items-center gap-6 py-14 sm:py-20 px-4 sm:px-12 lg:px-24 xl:px-40
          w-full overflow-hidden mt-12 sm:mt-20'>
                 <div data-worlds-heading className='px-6 sm:px-10 pb-4 sm:pb-5 border-b-2 sm:border-b-4 border-label mb-5'>
-                    <h1 className='text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-label'>Worlds</h1>
+                    <h1 className='text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-label'>{t.worlds.heading}</h1>
                 </div>
 
                 <div data-worlds-gallery className='w-full'>
                   {isPhone ? (
-                    <ul className='grid grid-cols-1 gap-4'>
+                    <ul aria-label={t.worlds.galleryLabel} className='grid grid-cols-1 gap-4'>
                       {worlds.map(({ image, label }) => (
                         <li
                           key={label}
@@ -58,7 +56,7 @@ const Worlds = () => {
                           />
 
                           <span className='absolute bottom-4 left-4 right-4 flex items-center gap-3'>
-                            <span className='h-6 w-[3px] shrink-0 rounded-[3px] bg-primary' />
+                            <span className='h-6 w-0.75 shrink-0 rounded-[3px] bg-primary' />
                             <span className='truncate text-base font-semibold text-primary [text-shadow:0_2px_14px_rgba(0,0,0,0.55)]'>
                               {label}
                             </span>
@@ -69,6 +67,7 @@ const Worlds = () => {
                   ) : (
                     <AccordionGallery
                     items={worlds}
+                    ariaLabel={t.worlds.galleryLabel}
                     defaultIndex={0}
                     trigger='hover'
                     expandRatio={0.34}

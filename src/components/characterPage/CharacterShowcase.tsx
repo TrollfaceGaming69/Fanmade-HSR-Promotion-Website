@@ -1,9 +1,11 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { elementIcons } from '../../assets/assets'
+import { useStrings } from '../../i18n/strings'
 import type { PathGroup, RosterEntry } from './characterRoster'
 
 const CharacterStory = ({ story }: { story: string }) => {
+  const t = useStrings()
   const paragraphRef = useRef<HTMLParagraphElement>(null)
   const [expanded, setExpanded] = useState(false)
   const [clampable, setClampable] = useState(false)
@@ -43,7 +45,7 @@ const CharacterStory = ({ story }: { story: string }) => {
             focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary
             motion-reduce:transition-none sm:text-sm"
         >
-          {expanded ? 'Show less' : 'Read more'}
+          {expanded ? t.common.showLess : t.common.readMore}
         </button>
       )}
     </>

@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets'
+import { useStrings } from '../i18n/strings'
 import { NAV_ITEMS, ROUTES } from '../routes'
+import LanguageSwitcher from './LanguageSwitcher'
 import DownloadOvl from './overlays/DownloadOvl'
 import { PLATFORMS } from './overlays/platforms'
 
 const Nav = () => {
+  const t = useStrings()
   const sentinelRef = useRef<HTMLDivElement>(null)
   const [isStuck, setIsStuck] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -57,7 +60,7 @@ const Nav = () => {
         >
             <Link
               to={ROUTES.home}
-              aria-label='Honkai: Star Rail home'
+              aria-label={t.nav.homeAria}
               onClick={() => setMenuOpen(false)}
               className='shrink-0'
             >
@@ -70,8 +73,8 @@ const Nav = () => {
             </Link>
 
             <ul className='hidden lg:inline-flex justify-center items-center gap-6 xl:gap-10'>
-                  {NAV_ITEMS.map(({ label, to }) => (
-                    <li key={label}>
+                  {NAV_ITEMS.map(({ key, to }) => (
+                    <li key={key}>
                       <NavLink
                         to={to}
                         end={to === ROUTES.home}
@@ -79,7 +82,7 @@ const Nav = () => {
                       >
                         {({ isActive }) => (
                           <>
-                            {label}
+                            {t.nav.items[key]}
                             <span aria-hidden='true' className={underlineClass(isActive)} />
                           </>
                         )}
@@ -89,21 +92,13 @@ const Nav = () => {
             </ul>
 
             <div className='hidden lg:inline-flex justify-end items-center gap-5 xl:gap-10'>
-                <button
-                  type='button'
-                  className='inline-flex items-center gap-2 cursor-pointer
-                    focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary'
-                >
-                  <img src={assets.globe_icon} className='size-5' alt="" />
-                  <span className='text-base xl:text-lg font-normal uppercase leading-none tracking-wider text-label'>English</span>
-                  <img src={assets.arrow_down} className='size-5' alt="" />
-                </button>
+                <LanguageSwitcher />
 
                 <div
                   role='button'
                   tabIndex={0}
                   aria-haspopup='true'
-                  aria-label='Download now'
+                  aria-label={t.common.downloadNow}
                   className='group relative w-44 xl:w-52 h-11 xl:h-12 rounded-[10px] inline-flex justify-start items-center cursor-pointer
                     focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary focus-visible:outline-none'
                 >
@@ -114,7 +109,7 @@ const Nav = () => {
                     </div>
 
                     <div className='w-32 xl:w-40 h-full bg-button-fill rounded-tr-[10px] rounded-br-[10px] inline-flex justify-center items-center gap-2.5'>
-                        <h3 className='text-black uppercase text-xs xl:text-sm font-medium'>Download now</h3>
+                        <h3 className='text-black uppercase text-xs xl:text-sm font-medium'>{t.common.downloadNow}</h3>
                     </div>
                 </div>
             </div>
@@ -124,7 +119,7 @@ const Nav = () => {
               onClick={() => setMenuOpen((open) => !open)}
               aria-expanded={menuOpen}
               aria-controls='mobile-menu'
-              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
               className='lg:hidden inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-md
                 border border-label/25 text-label transition-colors duration-300 ease-out
                 hover:border-primary hover:text-primary
@@ -162,22 +157,22 @@ const Nav = () => {
                 border-t border-label/15 bg-background/95 px-4 pt-4 pb-8 shadow-xl shadow-black/50 backdrop-blur-md'
             >
               <ul className='flex flex-col'>
-                {NAV_ITEMS.map(({ label, to }) => (
-                  <li key={label} className='border-b border-label/10'>
+                {NAV_ITEMS.map(({ key, to }) => (
+                  <li key={key} className='border-b border-label/10'>
                     <NavLink
                       to={to}
                       end={to === ROUTES.home}
                       onClick={() => setMenuOpen(false)}
                       className={(state) => `${navLinkClass(state)} block py-3.5 text-lg sm:text-xl tracking-wide`}
                     >
-                      {label}
+                      {t.nav.items[key]}
                     </NavLink>
                   </li>
                 ))}
               </ul>
 
               <p className='mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-label/60'>
-                Download
+                {t.nav.downloadHeading}
               </p>
 
               <ul className='mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3'>
@@ -199,15 +194,8 @@ const Nav = () => {
                 ))}
               </ul>
 
-              <button
-                type='button'
-                className='mt-6 inline-flex items-center gap-2 cursor-pointer
-                  focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary'
-              >
-                <img src={assets.globe_icon} className='size-5' alt="" />
-                <span className='text-base uppercase tracking-wider text-label'>English</span>
-                <img src={assets.arrow_down} className='size-5' alt="" />
-              </button>
+              {/* Opens upwards: the trigger sits at the bottom of a scrollable panel. */}
+              <LanguageSwitcher placement='top' className='mt-6' />
             </div>
         </nav>
   

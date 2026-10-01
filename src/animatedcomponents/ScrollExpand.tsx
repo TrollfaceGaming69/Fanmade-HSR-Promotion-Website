@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 
 const clamp = (v: number, a: number, b: number): number => (v < a ? a : v > b ? b : v);
@@ -80,22 +80,42 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
   const scrimRef = useRef<HTMLDivElement | null>(null);
   const hintRef = useRef<HTMLDivElement | null>(null);
 
-  const propsRef = useRef<Required<Pick<ScrollExpandProps, ConfigKey>>>(
-    {} as Required<Pick<ScrollExpandProps, ConfigKey>>
+  const config = useMemo<Required<Pick<ScrollExpandProps, ConfigKey>>>(
+    () => ({
+      startWidth,
+      startHeight,
+      startRadius,
+      endRadius,
+      mediaZoom,
+      scrollDistance,
+      holdDistance,
+      smoothing,
+      overlayScrim,
+      useWindowScroll,
+      enabled
+    }),
+    [
+      startWidth,
+      startHeight,
+      startRadius,
+      endRadius,
+      mediaZoom,
+      scrollDistance,
+      holdDistance,
+      smoothing,
+      overlayScrim,
+      useWindowScroll,
+      enabled
+    ]
   );
-  propsRef.current = {
-    startWidth,
-    startHeight,
-    startRadius,
-    endRadius,
-    mediaZoom,
-    scrollDistance,
-    holdDistance,
-    smoothing,
-    overlayScrim,
-    useWindowScroll,
-    enabled
-  };
+
+  // Mirrored into a ref so the scroll/RAF closures below always read the latest
+  // config without having to be torn down and rebuilt on every prop change.
+  const propsRef = useRef(config);
+
+  useLayoutEffect(() => {
+    propsRef.current = config;
+  }, [config]);
 
   const applyProgress = useCallback((p: number) => {
     const frame = frameRef.current;

@@ -2,8 +2,27 @@ import { useLayoutEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { newsMedia } from "../assets/assets"
 import { createSectionReveal, REVEAL_START } from "../animations/sectionReveal"
+import { useStrings } from "../i18n/strings"
+
+// Artwork stays here; the dates and headlines come from the dictionary and are
+// matched by position.
+const FEATURED_IMAGES = [newsMedia.newsmain1, newsMedia.newsmain2]
+
+const CARD_IMAGES = [
+  newsMedia.news,
+  newsMedia.news3,
+  newsMedia.news5,
+  newsMedia.news6,
+  newsMedia.news1,
+  newsMedia.news4,
+  newsMedia.news2,
+]
+
+const imageHoverClass =
+  "block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
 
 const NewsPage = () => {
+  const t = useStrings()
   const rootRef = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
@@ -88,124 +107,58 @@ const NewsPage = () => {
         <div className="flex justify-center text-center">
            <div data-news-heading className="px-6 sm:px-10 pb-4 sm:pb-5 border-b-2 sm:border-b-4 border-label">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-label">
-                news
+                {t.news.heading}
               </h1>
            </div>
         </div>
 
 
         <div className="grid grid-cols-1 gap-10 mt-12 sm:mt-20 lg:grid-cols-2">
-              <div data-news-feature className="">
-                  <div className="group w-full overflow-hidden rounded-lg">
-                    <img src={newsMedia.newsmain1} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-5 gap-4 flex flex-col">
-                    <p className="text-white text-base sm:text-lg lg:text-xl">September 27, 2026</p>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium text-white">Pearl Character Trailer: "The Way to Paint a Form of Hope" | Honkai: Star Rail</h3>
-                    <a href="" className="text-label hover:text-primary text-base sm:text-lg lg:text-xl">Read more</a>
-                  </div>
-              </div>
-
-               <div data-news-feature className="">
-                  <div className="group w-full overflow-hidden rounded-lg">
-                    <img src={newsMedia.newsmain2} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-5 gap-4 flex flex-col">
-                    <p className="text-white text-base sm:text-lg lg:text-xl">September 22, 2026</p>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium text-white">Keeping Up With Star Rail — Pearl: Deep Learning in Progress | Honkai: Star Rail</h3>
-                    <a href="" className="text-label hover:text-primary text-base sm:text-lg lg:text-xl">Read more</a>
-                  </div>
-              </div>
+              {t.news.featured.map(({ date, title }, index) => (
+                <div key={title} data-news-feature className="">
+                    <div className="group w-full overflow-hidden rounded-lg">
+                      <img src={FEATURED_IMAGES[index]} alt="" className={imageHoverClass} />
+                    </div>
+                    <div className="mt-5 gap-4 flex flex-col">
+                      <p className="text-white text-base sm:text-lg lg:text-xl">{date}</p>
+                      <h3 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-medium text-white">{title}</h3>
+                      <a href="" className="text-label hover:text-primary text-base sm:text-lg lg:text-xl">
+                        {t.common.readMore}
+                      </a>
+                    </div>
+                </div>
+              ))}
         </div>
-        
+
 
         <div className="mt-10 flex flex-col border-t-2 border-label py-14 sm:py-20">
-          <h1 data-news-title className="text-white font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl">Latest News</h1>
+          <h1 data-news-title className="text-white font-semibold text-2xl sm:text-3xl lg:text-4xl xl:text-5xl">
+            {t.news.latest}
+          </h1>
+
           <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-2 sm:gap-8 sm:mt-10 xl:grid-cols-3 xl:gap-10">
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">September 20, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Version 4.6 Trailer: "Dance With the Beast Before Moonrise" | Honkai: Star Rail</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news3} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">September 10, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Aventurine • Waveflair Character Trailer: "Exclusive Scoop" | Honkai: Star Rail</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news5} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">September 4, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Keeping Up With Star Rail — Aventurine • Waveflair: How Much Did SoulGlad Pay? | Honkai: Star Rail</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news6} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">August 26, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Version 4.5 "To Roll the Stars in Astropolis" Update Details</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news1} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">August 25, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Robin • Summeretto Character Trailer: "Chasing the Wind" | Honkai: Star Rail</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news4} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">August 21, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Myriad Celestia Trailer: "Beyond the Chorus" | Honkai: Star Rail</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
-            <div data-news-card className="flex flex-row gap-4 sm:gap-5">
-                  <div className="group w-2/5 shrink-0 self-start overflow-hidden">
-                    <img src={newsMedia.news2} alt="" className="block w-full transition-transform duration-500 ease-out group-hover:scale-110 motion-reduce:transition-none motion-reduce:group-hover:scale-100"/>
-                  </div>
-                  <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
-                    <p className="text-white text-sm">August 14, 2026</p>
-                    <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">Version 4.5 Trailer: "To Roll the Stars in Astropolis" | Honkai: Star Rail</h3>
-                    <a href="" className="text-label text-sm">Read more</a>
-                  </div>
-            </div>
-
+            {t.news.cards.map(({ date, title }, index) => (
+              <div key={title} data-news-card className="flex flex-row gap-4 sm:gap-5">
+                    <div className="group w-2/5 shrink-0 self-start overflow-hidden">
+                      <img src={CARD_IMAGES[index]} alt="" className={imageHoverClass} />
+                    </div>
+                    <div className="mt-1 gap-2 flex flex-col flex-1 min-w-0 sm:mt-4 sm:gap-4 xl:mt-8">
+                      <p className="text-white text-sm">{date}</p>
+                      <h3 className="text-base font-medium text-white sm:text-lg lg:text-xl">{title}</h3>
+                      <a href="" className="text-label text-sm">{t.common.readMore}</a>
+                    </div>
+              </div>
+            ))}
           </div>
+
           <div data-news-more className="flex justify-center mt-10">
              <button className="uppercase rounded-lg bg-button-fill text-black text-sm lg:text-lg mt-5 font-semibold px-8 py-4 sm:px-10 sm:py-5
               transition-opacity duration-200 ease-out hover:opacity-90
-              focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none">see more</button>
+              focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary motion-reduce:transition-none">
+                {t.news.seeMore}
+             </button>
           </div>
-         
+
         </div>
     </div>
   )

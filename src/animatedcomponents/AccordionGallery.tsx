@@ -29,6 +29,8 @@ export interface AccordionGalleryProps {
   showLabels?: boolean;
   grayscale?: boolean;
   className?: string;
+  /** Accessible name for the gallery. Pass a translated string. */
+  ariaLabel?: string;
 }
 
 const DEFAULT_ITEMS: AccordionGalleryItem[] = [
@@ -39,13 +41,8 @@ const DEFAULT_ITEMS: AccordionGalleryItem[] = [
   { image: 'https://picsum.photos/id/1044/900/1200', label: 'Skyline', link: '#' }
 ];
 
-// How much of the track the active panel is allowed to take. The lower bound is
-// intentionally small so galleries with many items can keep their inactive
-// panels readable instead of collapsing them into slivers.
 const MIN_EXPAND_RATIO = 0.15;
 const MAX_EXPAND_RATIO = 0.9;
-// The media box is drawn wider than its panel so the tilt/parallax never
-// exposes an edge. Keep this just above 1.
 const MEDIA_OVERSHOOT = 1.18;
 
 const clampRatio = (value: number) => Math.min(Math.max(value, MIN_EXPAND_RATIO), MAX_EXPAND_RATIO);
@@ -69,7 +66,8 @@ const AccordionGallery = ({
   trigger = 'hover',
   showLabels = true,
   grayscale = true,
-  className = ''
+  className = '',
+  ariaLabel = 'Image accordion gallery'
 }: AccordionGalleryProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<(HTMLElement | null)[]>([]);
@@ -222,7 +220,7 @@ const AccordionGallery = ({
       className={`flex ${vertical ? 'flex-col' : 'flex-row'} w-full max-w-full [perspective:1400px] max-[520px]:!flex-col max-[520px]:[perspective:none] ${className}`}
       style={{ gap: `${gap}px`, height: vertical ? `${Math.round(height * 1.6)}px` : `${height}px` }}
       role="list"
-      aria-label="Image accordion gallery"
+      aria-label={ariaLabel}
     >
       {items.map((item, i) => {
         const isActive = i === active;

@@ -1,17 +1,17 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { media, shortvideo } from "../assets/assets";
 import { createSectionReveal, revealOnScroll } from "../animations/sectionReveal";
+import { useStrings } from "../i18n/strings";
 
-const TABS = [
-  { id: "screenshots", label: "Screenshots" },
-  { id: "shortvideos", label: "shortvideos" },
-] as const;
+// Labels come from the dictionary; only the ids live here.
+const TABS = ["screenshots", "shortvideos"] as const;
 
-type TabId = (typeof TABS)[number]["id"];
+type TabId = (typeof TABS)[number];
 
 const clips = Object.values(shortvideo);
 
 const Media = () => {
+  const t = useStrings();
   const [activeTab, setActiveTab] = useState<TabId>("screenshots");
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,6 @@ const Media = () => {
     });
   }, []);
 
-  // Rebuilt per tab so a freshly switched rail reveals the same way.
   useLayoutEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -43,7 +42,6 @@ const Media = () => {
     return createSectionReveal(root, ({ scroller }) => {
       const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-media-slide]"));
 
-      // The rail scrolls sideways, so the media slides in from the right.
       revealOnScroll(slides, scroller, {
         from: { x: 64, y: 0, scale: 0.97 },
         to: { x: 0, scale: 1, duration: 0.7, stagger: 0.12 },
@@ -52,7 +50,6 @@ const Media = () => {
     });
   }, [activeTab]);
 
-  // These clips are large, so only the ones scrolled into the rail keep playing.
   useEffect(() => {
     const track = trackRef.current;
     if (activeTab !== "shortvideos" || !track) return;
@@ -121,7 +118,7 @@ const Media = () => {
     >
       <div data-media-heading className="px-6 sm:px-10 pb-4 sm:pb-5 border-b-2 sm:border-b-4 border-label">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-label">
-          Media
+          {t.media.heading}
         </h1>
       </div>
 
@@ -129,11 +126,12 @@ const Media = () => {
         <div
           data-media-tabs
           role="tablist"
-          aria-label="Media type"
+          aria-label={t.media.tabsLabel}
           className="flex flex-wrap justify-center gap-6 sm:gap-10 text-text text-xl"
         >
-          {TABS.map(({ id, label }) => {
+          {TABS.map((id) => {
             const isActive = id === activeTab;
+            const label = t.media.tabs[id];
 
             return (
               <button
@@ -172,11 +170,7 @@ const Media = () => {
         role="tabpanel"
         id="media-panel"
         aria-labelledby={`media-tab-${activeTab}`}
-        aria-label={
-          isVideos
-            ? "Gameplay clip gallery, drag or use arrow keys to scroll"
-            : "Screenshot gallery, drag or use arrow keys to scroll"
-        }
+        aria-label={isVideos ? t.media.clipGallery : t.media.screenshotGallery}
         className="self-stretch -mr-4 sm:-mr-12 lg:-mr-24 xl:-mr-40
           pr-4 sm:pr-12 lg:pr-24 xl:pr-40
           mt-3.5 sm:mt-12 flex gap-5 sm:gap-8 lg:gap-10 overflow-x-auto overscroll-x-contain no-scrollbar
@@ -203,7 +197,7 @@ const Media = () => {
                   preload="metadata"
                   disablePictureInPicture
                   draggable={false}
-                  aria-label={`Gameplay clip ${index + 1}`}
+                  aria-label={t.media.clipAlt(index + 1)}
                   className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
                 />
               </div>
@@ -217,7 +211,7 @@ const Media = () => {
               >
                 <img
                   src={img}
-                  alt={`Game screenshot ${index + 1}`}
+                  alt={t.media.screenshotAlt(index + 1)}
                   loading="lazy"
                   draggable={false}
                   className="absolute inset-0 h-full w-full select-none object-cover"

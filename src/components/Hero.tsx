@@ -2,16 +2,20 @@ import { useRef, useCallback, useState } from "react";
 import ScrollExpand from "../animatedcomponents/ScrollExpand";
 import { assets } from "../assets/assets";
 import DownloadOvl from "./overlays/DownloadOvl";
+import { useMediaQuery } from "../hooks/useMediaQuery";
+import { useStrings } from "../i18n/strings";
 
 const Hero = () => {
+  const t = useStrings();
+  const isPhone = useMediaQuery("(max-width: 639px)");
   const hasScrolledRef = useRef(false);
-  const [animationEnabled, setAnimationEnabled] = useState(true);
+  const [animationDone, setAnimationDone] = useState(false);
 
   const handleAnimationComplete = useCallback(() => {
     if (hasScrolledRef.current) return;
     hasScrolledRef.current = true;
 
-    setAnimationEnabled(false);
+    setAnimationDone(true);
 
     const introElement = document.getElementById('intro');
     if (introElement) {
@@ -24,9 +28,9 @@ const Hero = () => {
       <ScrollExpand
         src={assets.hero_bg}
         alt="hero"
-        title="Start your trailblazing journey"
-        onComplete={handleAnimationComplete}
-        enabled={animationEnabled}
+        title={isPhone ? "" : "Start your trailblazing journey"}
+        onComplete={isPhone ? undefined : handleAnimationComplete}
+        enabled={!isPhone && !animationDone}
       >
         <h2 className="text-3xl sm:text-5xl lg:text-7xl xl:text-[100px] uppercase font-bold text-white text-balance
           [text-shadow:0_2px_24px_rgba(0,0,0,0.45)]">Honkai star rail</h2>
@@ -35,7 +39,7 @@ const Hero = () => {
           role="button"
           tabIndex={0}
           aria-haspopup="true"
-          aria-label="Download now"
+          aria-label={t.common.downloadNow}
           className="group relative w-60 h-14 sm:w-80 sm:h-18 lg:w-102 lg:h-22 rounded-[10px] inline-flex justify-start items-center
             mt-4 cursor-pointer
             focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary focus-visible:outline-none"
@@ -47,7 +51,7 @@ const Hero = () => {
           </div>
 
           <div className="w-44 sm:w-60 lg:w-80 h-full bg-button-fill rounded-tr-[10px] rounded-br-[10px] inline-flex justify-center items-center gap-2.5">
-            <h3 className="text-black uppercase text-sm sm:text-lg lg:text-2xl font-medium">Download now</h3>
+            <h3 className="text-black uppercase text-sm sm:text-lg lg:text-2xl font-medium">{t.common.downloadNow}</h3>
           </div>
         </div>
       </ScrollExpand>

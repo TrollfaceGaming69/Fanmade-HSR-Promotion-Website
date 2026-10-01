@@ -1,17 +1,16 @@
 import { useEffect, useRef } from 'react'
-import type { GameplayEntry } from '../../assets/assets'
 import { findScroller } from '../../animations/sectionReveal'
 
 type GameplayFeatureProps = {
-  entry: GameplayEntry
+  video: string
+  label: string
+  description: string
   index: number
 }
 
-const GameplayFeature = ({ entry, index }: GameplayFeatureProps) => {
+const GameplayFeature = ({ video, label, description, index }: GameplayFeatureProps) => {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const { video, label, description } = entry
 
-  // Five clips share this page, so each one only decodes while it is on screen.
   useEffect(() => {
     const node = videoRef.current
     if (!node) return

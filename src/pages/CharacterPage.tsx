@@ -1,6 +1,9 @@
 import CharacterExplorer from '../components/characterPage/CharacterExplorer'
+import { useStrings } from '../i18n/strings'
 
 const CharacterPage = () => {
+  const t = useStrings()
+
   return (
     <div
       className="relative w-full overflow-hidden px-4 pt-10 pb-16 sm:px-12
@@ -9,7 +12,9 @@ const CharacterPage = () => {
     >
       <div className="flex shrink-0 justify-center text-center">
         <div className="border-b-2 border-label px-6 pb-4 sm:border-b-4 sm:px-8 lg:pb-2">
-          <h1 className="text-3xl font-bold text-label uppercase sm:text-4xl lg:text-5xl">characters</h1>
+          <h1 className="text-3xl font-bold text-label uppercase sm:text-4xl lg:text-5xl">
+            {t.characterPage.heading}
+          </h1>
         </div>
       </div>
 

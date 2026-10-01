@@ -48,19 +48,8 @@ export const createSectionReveal = (
 
 export const REVEAL_START = 'clamp(top 80%)'
 
-/** The `80%` in REVEAL_START, as a fraction of the scroller's height. */
 const REVEAL_LINE = 0.8
 
-/**
- * Whether an element already sits above the reveal line once the page is at the
- * top of its scroller.
- *
- * Routes always mount at scroll 0, and REVEAL_START clamps its start to 0 too,
- * so a trigger inside that first screen never gets crossed — the tween would
- * stay parked on its `from` state until the reader nudges the wheel. Measuring
- * against the scroller's content (rather than the current viewport) keeps this
- * honest even though RootLayout resets the scroll position after this runs.
- */
 export const startsInView = (element: Element, scroller: HTMLElement | Window): boolean => {
   const rect = element.getBoundingClientRect()
 
@@ -95,7 +84,6 @@ export const revealOnScroll = (
   const toVars = { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out', ...to }
   const anchor = trigger ?? list[0]
 
-  // Anything on screen at mount plays on load: there is no scroll left to wait for.
   if (start === REVEAL_START && startsInView(anchor, scroller)) {
     gsap.fromTo(list, fromVars, toVars)
     return
