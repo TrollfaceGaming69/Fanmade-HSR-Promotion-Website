@@ -14,7 +14,10 @@ const RootLayout = () => {
   return (
     <div
       ref={scrollRef}
-      className="overflow-y-auto overflow-x-hidden h-svh scrollbar-none [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+      // `no-scrollbar` is the project utility from index.css. It emits the standard
+      // scrollbar-width plus the WebKit pseudo-element, so the page scrollbar is
+      // hidden in Firefox too — `scrollbar-none` was a no-op class name.
+      className="overflow-y-auto overflow-x-hidden h-svh no-scrollbar"
     >
       <Nav />
 

@@ -153,7 +153,7 @@ const Nav = () => {
             <div
               id='mobile-menu'
               hidden={!menuOpen}
-              className='lg:hidden absolute inset-x-0 top-full max-h-[calc(100svh-5rem)] overflow-y-auto
+              className='lg:hidden absolute inset-x-0 top-full max-h-[calc(100svh-5rem)] overflow-y-auto no-scrollbar
                 border-t border-label/15 bg-background/95 px-4 pt-4 pb-8 shadow-xl shadow-black/50 backdrop-blur-md'
             >
               <ul className='flex flex-col'>

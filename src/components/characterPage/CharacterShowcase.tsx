@@ -28,7 +28,7 @@ const CharacterStory = ({ story }: { story: string }) => {
     <>
       <p
         ref={paragraphRef}
-        className={`mt-5 shrink-0 text-base leading-relaxed text-text sm:text-lg md:text-xl lg:text-2xl xl:text-3xl
+        className={`mt-5 shrink-0 text-base leading-relaxed text-text sm:text-lg md:text-xl xl:text-2xl
           ${expanded ? '' : 'line-clamp-5'}`}
       >
         {story}
@@ -121,8 +121,11 @@ const CharacterShowcase = ({
       <div className="grid gap-8 lg:min-h-0 lg:flex-1 lg:grid-cols-2 lg:gap-8 xl:gap-12">
         <div
           data-showcase-copy
+          // The entry animation translates these children down 24px, which briefly
+          // extends the scrollable overflow area and flashed a scrollbar on every
+          // path switch. Hidden here, as on the rails and the overlay.
           className="order-2 flex min-h-0 flex-col justify-center-safe
-            lg:order-1 lg:overflow-y-auto lg:pr-2"
+            lg:order-1 lg:overflow-y-auto lg:no-scrollbar lg:pr-2"
         >
           <p className="text-xs font-semibold tracking-[0.3em] text-primary uppercase">
             {group.fullName}
@@ -146,7 +149,7 @@ const CharacterShowcase = ({
 
           <CharacterStory key={id} story={story} />
 
-          <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div className="mt-5 flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2.5 rounded-full border border-primary/40 bg-container-fill/70 py-1.5 pr-4 pl-1.5">
               <span className="inline-flex size-8 items-center justify-center rounded-full bg-primary/10">
                 <img
@@ -182,7 +185,7 @@ const CharacterShowcase = ({
             </span>
           </div>
 
-          <blockquote className="mt-6 border-l-2 border-primary/50 pl-4 text-base leading-relaxed text-label/90 italic sm:pl-5 sm:text-lg lg:text-xl xl:text-2xl">
+          <blockquote className="mt-5 border-l-2 border-primary/50 pl-4 text-base leading-relaxed text-label/90 italic sm:pl-5 sm:text-lg xl:text-xl">
             &ldquo;{quote}&rdquo;
           </blockquote>
         </div>
@@ -204,7 +207,7 @@ const CharacterShowcase = ({
             draggable={false}
             className="relative max-h-[38vh] w-auto max-w-full select-none object-contain sm:max-h-[46vh]
               drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]
-              [@media(min-height:1200px)]:lg:h-full [@media(min-height:1200px)]:lg:max-h-full"
+              [@media(min-height:1500px)]:lg:h-full [@media(min-height:1500px)]:lg:max-h-full"
           />
         </div>
       </div>
