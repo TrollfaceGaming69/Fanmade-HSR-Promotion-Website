@@ -60,7 +60,6 @@ const Gameplaypage = () => {
       <ul className="mt-5 flex w-full flex-col gap-14 sm:gap-20 lg:gap-28">
         {gameplay.map((entry, index) => (
           <li key={entry.video}>
-            {/* The clip comes from assets.ts, the copy from the dictionary. */}
             <GameplayFeature
               video={entry.video}
               label={t.gameplay.features[index].label}

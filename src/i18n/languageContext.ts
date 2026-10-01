@@ -7,10 +7,6 @@ export type LanguageContextValue = {
   setLanguage: (language: Language) => void
 }
 
-/**
- * Kept in a .ts file (no JSX) so the provider component can live on its own and
- * fast refresh stays happy about files exporting only components.
- */
 export const LanguageContext = createContext<LanguageContextValue>({
   language: DEFAULT_LANGUAGE,
   setLanguage: () => {},

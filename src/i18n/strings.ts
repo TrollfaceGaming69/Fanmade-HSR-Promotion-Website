@@ -1,18 +1,6 @@
 import { useLanguage } from './languageContext'
 import type { Language } from './types'
 
-/**
- * English is the source of truth: `id` is typed against it, so a missing or
- * misspelled key fails the build instead of silently falling back.
- *
- * Deliberately left in English on the Indonesian side:
- *   - the ScrollExpand hero tagline (lives in Hero.tsx, not here)
- *   - game terminology and proper nouns (Trailblazer, Astral Express, Stellaron,
- *     world names, Light Cones, Memory of Chaos, …)
- *   - Path and element names (they come from assets.ts and are rendered as-is)
- *   - anything inside double quotes in a news headline
- *   - the word "gameplay"
- */
 const en = {
   common: {
     downloadNow: 'Download now',

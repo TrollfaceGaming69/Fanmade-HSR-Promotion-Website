@@ -16,14 +16,11 @@ const readStoredLanguage = (): Language => {
     const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY)
     return isLanguage(stored) ? stored : DEFAULT_LANGUAGE
   } catch {
-    // Storage can be blocked (private mode, hardened settings). Not fatal.
     return DEFAULT_LANGUAGE
   }
 }
 
 const LanguageProvider = ({ children }: { children: ReactNode }) => {
-  // Read synchronously so the first paint is already in the saved language
-  // instead of flashing English and swapping afterwards.
   const [language, setLanguageState] = useState<Language>(readStoredLanguage)
 
   const setLanguage = useCallback((next: Language) => {
@@ -32,7 +29,7 @@ const LanguageProvider = ({ children }: { children: ReactNode }) => {
     try {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, next)
     } catch {
-      // The choice still applies for this session even if it cannot be saved.
+      //
     }
   }, [])
 

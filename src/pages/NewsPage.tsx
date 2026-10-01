@@ -4,8 +4,6 @@ import { newsMedia } from "../assets/assets"
 import { createSectionReveal, REVEAL_START } from "../animations/sectionReveal"
 import { useStrings } from "../i18n/strings"
 
-// Artwork stays here; the dates and headlines come from the dictionary and are
-// matched by position.
 const FEATURED_IMAGES = [newsMedia.newsmain1, newsMedia.newsmain2]
 
 const CARD_IMAGES = [
@@ -56,7 +54,6 @@ const NewsPage = () => {
           )
         }
 
-        // Everything below reveals as it scrolls into view.
         if (title) {
           gsap.fromTo(
             title,

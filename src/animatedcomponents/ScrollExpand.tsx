@@ -109,8 +109,6 @@ const ScrollExpand: React.FC<ScrollExpandProps> = ({
     ]
   );
 
-  // Mirrored into a ref so the scroll/RAF closures below always read the latest
-  // config without having to be torn down and rebuilt on every prop change.
   const propsRef = useRef(config);
 
   useLayoutEffect(() => {

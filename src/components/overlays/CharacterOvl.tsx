@@ -141,9 +141,6 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
           </svg>
         </button>
 
-        {/* Below lg this is the scroll container: a column with the art on top and
-            the copy under it. flex-1 + min-h-0 are what let it shrink inside the
-            panel's max height and scroll, instead of overflowing and being clipped. */}
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain no-scrollbar
           lg:grid lg:grid-cols-[1.05fr_1fr] lg:overflow-hidden">
           <div className="order-2 flex shrink-0 flex-col px-5 pt-7 pb-9 sm:px-10 sm:pt-8 sm:pb-10 lg:order-1 lg:max-h-[90svh]
@@ -198,9 +195,6 @@ const CharacterOvl = ({ character, onClose }: CharacterOvlProps) => {
             </div>
           </div>
 
-          {/* A 4/5 ratio took ~70% of the panel on a phone, which is what pushed the
-              story out of sight. Capped against the viewport instead, and shrink-0
-              so the column scrolls rather than squashing the art. */}
           <div className="relative order-1 h-72 max-h-[38svh] shrink-0 overflow-hidden bg-background/40
             sm:h-auto sm:max-h-none sm:aspect-16/10
             lg:order-2 lg:aspect-auto lg:h-full lg:min-h-136">

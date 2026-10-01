@@ -3,7 +3,6 @@ import { media, shortvideo } from "../assets/assets";
 import { createSectionReveal, revealOnScroll } from "../animations/sectionReveal";
 import { useStrings } from "../i18n/strings";
 
-// Labels come from the dictionary; only the ids live here.
 const TABS = ["screenshots", "shortvideos"] as const;
 
 type TabId = (typeof TABS)[number];

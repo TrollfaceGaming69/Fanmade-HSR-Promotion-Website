@@ -6,7 +6,6 @@ import { LANGUAGE_NAMES, LANGUAGES } from '../i18n/types'
 import type { Language } from '../i18n/types'
 
 type LanguageSwitcherProps = {
-  /** `top` opens upwards, for triggers near the bottom of a panel. */
   placement?: 'bottom' | 'top'
   className?: string
 }
@@ -17,8 +16,6 @@ const LanguageSwitcher = ({ placement = 'bottom', className = '' }: LanguageSwit
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLButtonElement>(null)
-  // Two instances live in the Nav (desktop bar + mobile menu), so the ids cannot
-  // be hardcoded.
   const panelId = useId()
 
   useEffect(() => {

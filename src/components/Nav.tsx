@@ -194,7 +194,6 @@ const Nav = () => {
                 ))}
               </ul>
 
-              {/* Opens upwards: the trigger sits at the bottom of a scrollable panel. */}
               <LanguageSwitcher placement='top' className='mt-6' />
             </div>
         </nav>

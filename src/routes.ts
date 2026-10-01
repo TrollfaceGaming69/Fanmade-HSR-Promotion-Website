@@ -1,11 +1,3 @@
-/**
- * Single source of truth for the site's routes.
- * Nav, Footer and the router all read from here so links can never drift
- * out of sync with the actual route definitions.
- *
- * Labels are not stored here: they live in src/i18n/strings.ts and are looked up
- * by `key`, so every menu follows the selected language.
- */
 export const ROUTES = {
   home: '/',
   gameplay: '/gameplay',
@@ -23,7 +15,6 @@ export type NavItem = {
   to: string
 }
 
-/** Primary navigation shown in the header. */
 export const NAV_ITEMS: NavItem[] = [
   { key: 'home', to: ROUTES.home },
   { key: 'gameplay', to: ROUTES.gameplay },
@@ -37,7 +28,6 @@ export type FooterNavItem = {
   to: string
 }
 
-/** Navigation column in the footer. */
 export const FOOTER_NAV_ITEMS: FooterNavItem[] = [
   { key: 'gameplay', to: ROUTES.gameplay },
   { key: 'characters', to: ROUTES.characters },

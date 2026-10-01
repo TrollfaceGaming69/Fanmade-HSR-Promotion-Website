@@ -3,7 +3,6 @@ import { assets } from '../assets/assets'
 import { useStrings } from '../i18n/strings'
 import { FOOTER_NAV_ITEMS } from '../routes'
 
-// Platform and network names stay as-is in every language.
 const DOWNLOAD_LINKS = ['Windows', 'macOS', 'Linux', 'Steam', 'Epic Games'] as const
 const SOCIAL_LINKS = ['Twitter / X', 'Discord', 'YouTube'] as const
 

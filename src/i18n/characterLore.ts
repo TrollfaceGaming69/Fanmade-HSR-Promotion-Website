@@ -5,14 +5,6 @@ type Lore = {
   quote: string
 }
 
-/**
- * Indonesian story and quote per character, keyed by the English `name` in
- * assets.ts (which stays the English source).
- *
- * Names, titles, Paths, elements and in-game proper nouns are left in English
- * on purpose: Astral Express, Stellaron, Chrysos Heir, Coreflame, IPC, Ten
- * Stonehearts, Light Cone, and so on.
- */
 const LORE_ID: Record<string, Lore> = {
   'March 7th': {
     story:
