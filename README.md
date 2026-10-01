@@ -65,9 +65,10 @@ Cross-cutting behaviour:
 | --- | --- |
 | UI | React 19 + TypeScript |
 | Build tool | Vite 8 (`@vitejs/plugin-react`) |
+| Component Library | Shadcn.ui + ReactBits |
 | Styling | Tailwind CSS v4 via `@tailwindcss/vite` (no `tailwind.config.js` — the theme lives in CSS) |
 | Routing | React Router 7 (`BrowserRouter`) |
-| Animation | GSAP 3 + ScrollTrigger |
+| Animation | GSAP |
 | Icons / fonts | Inline SVG, `lucide-react`, Poppins + Manrope (Google Fonts), Geist Variable (`@fontsource-variable/geist`) |
 | Linting | ESLint 10 flat config, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh` |
 | Media tooling | `sharp` (images) and `ffmpeg` (video), used by a local script only |
