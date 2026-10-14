@@ -1,7 +1,7 @@
 # Fanmade Honkai: Star Rail Promotion Website
 
-A fan-made recreation of the *Honkai: Star Rail* promotional site, built as a front-end practice
-project with React 19, TypeScript, Tailwind CSS v4 and GSAP.
+A fan-made recreation of the *Honkai: Star Rail* promotional site, built as a project for web development competition using
+with React 19, TypeScript, Tailwind CSS v4 and GSAP.
 
 It is a single-page application with five routes: a landing page that walks through the game, plus
 dedicated Gameplay, Characters, News and FAQ pages. Everything is static — no backend, no API calls,
@@ -65,9 +65,10 @@ Cross-cutting behaviour:
 | --- | --- |
 | UI | React 19 + TypeScript |
 | Build tool | Vite 8 (`@vitejs/plugin-react`) |
+| Component Library | Shadcn.ui + ReactBits |
 | Styling | Tailwind CSS v4 via `@tailwindcss/vite` (no `tailwind.config.js` — the theme lives in CSS) |
 | Routing | React Router 7 (`BrowserRouter`) |
-| Animation | GSAP 3 + ScrollTrigger |
+| Animation | GSAP |
 | Icons / fonts | Inline SVG, `lucide-react`, Poppins + Manrope (Google Fonts), Geist Variable (`@fontsource-variable/geist`) |
 | Linting | ESLint 10 flat config, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh` |
 | Media tooling | `sharp` (images) and `ffmpeg` (video), used by a local script only |
