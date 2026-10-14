@@ -78,7 +78,7 @@ const Nav = () => {
                       <NavLink
                         to={to}
                         end={to === ROUTES.home}
-                        className={(state) => `${navLinkClass(state)} text-lg xl:text-2xl`}
+                        className={(state) => `${navLinkClass(state)} text-base xl:text-2xl`}
                       >
                         {({ isActive }) => (
                           <>

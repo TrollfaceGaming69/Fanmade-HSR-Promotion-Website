@@ -58,11 +58,11 @@ const Intro = () => {
 
             <div className='flex flex-col-reverse lg:flex-row gap-8 lg:gap-10 justify-center items-center mt-6 sm:mt-10'>
                 <div data-intro-copy className='flex w-full flex-col max-w-[41.813rem] lg:min-w-[50%] lg:w-1/2 xl:w-auto'>
-                    <p data-intro-lead className='text-base sm:text-lg lg:text-2xl xl:text-3xl text-text'>
+                    <p data-intro-lead className='text-[14px] sm:text-sm lg:text-lg xl:text-2xl text-text'>
                         {t.intro.lead}
                     </p>
 
-                    <ul className='text-base sm:text-lg lg:text-2xl xl:text-3xl text-primary list-disc pl-5 sm:pl-8 list-outside mt-8 sm:mt-10 space-y-4'>
+                    <ul className='text-[14px] sm:text-sm lg:text-lg xl:text-2xl text-primary list-disc pl-5 sm:pl-8 list-outside mt-8 sm:mt-10 space-y-4'>
                         {t.intro.bullets.map((bullet) => (
                             <li key={bullet}>{bullet}</li>
                         ))}
