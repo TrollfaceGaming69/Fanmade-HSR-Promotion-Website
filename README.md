@@ -1,10 +1,10 @@
 # Fanmade Honkai: Star Rail Promotion Website
 
 A fan-made recreation of the *Honkai: Star Rail* promotional site, built as a project for web development competition using
-with React 19, TypeScript, Tailwind CSS v4 and GSAP.
+with React, TypeScript, Tailwind CSS, and GSAP.
 
 It is a single-page application with five routes: a landing page that walks through the game, plus
-dedicated Gameplay, Characters, News and FAQ pages. Everything is static — no backend, no API calls,
+dedicated Gameplay, Characters, News and FAQ pages. Everything is static with no backend, no API calls,
 no database. All copy, images and clips are bundled with the app.
 
 > **Disclaimer.** This is an unofficial fan project with no affiliation to HoYoverse or COGNOSPHERE.
